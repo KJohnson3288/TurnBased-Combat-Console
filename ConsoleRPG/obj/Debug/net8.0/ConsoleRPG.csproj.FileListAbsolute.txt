@@ -1,0 +1,14 @@
+D:\Website Practice\ConsoleRPG\ConsoleRPG\bin\Debug\net8.0\ConsoleRPG.exe
+D:\Website Practice\ConsoleRPG\ConsoleRPG\bin\Debug\net8.0\ConsoleRPG.deps.json
+D:\Website Practice\ConsoleRPG\ConsoleRPG\bin\Debug\net8.0\ConsoleRPG.runtimeconfig.json
+D:\Website Practice\ConsoleRPG\ConsoleRPG\bin\Debug\net8.0\ConsoleRPG.dll
+D:\Website Practice\ConsoleRPG\ConsoleRPG\bin\Debug\net8.0\ConsoleRPG.pdb
+D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ConsoleRPG.GeneratedMSBuildEditorConfig.editorconfig
+D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ConsoleRPG.AssemblyInfoInputs.cache
+D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ConsoleRPG.AssemblyInfo.cs
+D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ConsoleRPG.csproj.CoreCompileInputs.cache
+D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ConsoleRPG.dll
+D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\refint\ConsoleRPG.dll
+D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ConsoleRPG.pdb
+D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ConsoleRPG.genruntimeconfig.cache
+D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ref\ConsoleRPG.dll
