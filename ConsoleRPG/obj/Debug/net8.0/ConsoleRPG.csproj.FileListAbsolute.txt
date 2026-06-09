@@ -12,3 +12,4 @@ D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\refint\ConsoleRPG.dll
 D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ConsoleRPG.pdb
 D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ConsoleRPG.genruntimeconfig.cache
 D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ref\ConsoleRPG.dll
+D:\Website Practice\ConsoleRPG\ConsoleRPG\obj\Debug\net8.0\ConsoleRPG.sourcelink.json

@@ -1,10 +1,12 @@
+using System;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Serialization;
 
+
 public static class Battle
 {
-    // Basic enemy pool
-    private static List<Func<Enemy>> enemyPool= new List<Func<Enemy>>()
+    private static List<Func<Enemy>> enemyPool = new List<Func<Enemy>>()
     {
         () => new Enemy("Goblin", 6, 2, 2, 6, 60, 5, 15, 20),            // High Speed / Ave Accuracy 
         () => new Enemy("Hob Goblin", 8, 3, 2, 12, 40, 8, 25, 20),        // Higher Speed / More Strength / Less Accuracy
@@ -13,21 +15,21 @@ public static class Battle
         () => new Enemy("Green Goblin", 10, 4, 2, 8, 50, 10, 50, 20),     // Balanced / High Attack / Abilities
     };
 
-    // Boss Enemy pool
-    private static List<Func<Enemy>> bossPool= new List<Func<Enemy>>()
+    // Boss List
+    private static List<Func<Enemy>> bossPool = new List<Func<Enemy>>()
     {
         () => new Enemy("Goblin Ogre", 25, 6, 6, 6, 30, 15, 75, 20),      // Tank Boss - Slow / Low Accuracy / High damage / Abilities 
         () => new Enemy("Goblin Champion", 20, 5, 5, 10, 60, 12, 100, 20)   // Strength Boss / High Attack / Defend / Abilities
     };
 
 
-
-    // Function for random enemy generating 
+    // Function for random generating enemies
     private static Enemy GenerateEnemy()
     {
         return enemyPool[GameSettings.RNG.Next(enemyPool.Count)]();
     }
 
+    // Boss Generation
     private static Enemy GenerateBoss()
     {
         return bossPool[GameSettings.RNG.Next(bossPool.Count)]();
@@ -35,18 +37,18 @@ public static class Battle
 
     public static bool Run(Player player, bool bossBattle)
     {
-
+        // Base Varible to generate enemy
         Enemy enemy;
-        
-        // Will generate enemy based on conditional for bossBattle
+
         if(bossBattle)
         {
-            enemy = GenerateBoss();
+          // Prompt the player about the encounter
+          enemy = GenerateBoss();
         } else
         {
-            enemy = GenerateEnemy();
+          // Prompt the player about the encounter
+          enemy = GenerateEnemy();
         }
-
 
 
         Console.WriteLine($"A wild {enemy.Name} appears!");
@@ -72,9 +74,9 @@ public static class Battle
             // Prompt the player for their action
             Console.WriteLine("Choose your action:");
 
-            for(int i = 0; i <player.Actions.Count; i++)
+            for(int i = 0; i < player.Abilities.Count; i++)
             {
-                Console.WriteLine($"({i + 1}) {player.Actions[i]}");
+                Console.WriteLine($"({i + 1}) {player.Abilities[i].Name}");
             }
 
             string input;
@@ -83,7 +85,8 @@ public static class Battle
             if(GameSettings.SimulationMode)
             {
                 // Random setting for simulation mode
-                input = GameSettings.RNG.Next(1, player.Actions.Count + 1).ToString();
+                 input = GameSettings.RNG.Next(1, player.Abilities.Count + 1).ToString();
+                 Console.WriteLine($"\nInput: {input}");
             } else
             {
                 int choice;
@@ -93,17 +96,17 @@ public static class Battle
                     input = Console.ReadLine() ?? "";
                     
 
-                    if(!int.TryParse(input, out choice) || choice < 1 || choice > player.Actions.Count)
+                    if(!int.TryParse(input, out choice) || choice < 1 || choice > player.Abilities.Count)
                     {
                         Console.WriteLine("\nInvalid Input");
                         Console.WriteLine("Choose your action:");
 
-                        for(int i = 0; i <player.Actions.Count; i++)
+                        for(int i = 0; i <player.Abilities.Count; i++)
                         {
-                            Console.WriteLine($"({i + 1}) {player.Actions[i]}");
+                            Console.WriteLine($"({i + 1}) {player.Abilities[i]}");
                         }
                     }
-                } while(!int.TryParse(input, out choice) || choice < 1 || choice > player.Actions.Count);
+                } while(!int.TryParse(input, out choice) || choice < 1 || choice > player.Abilities.Count);
 
             }
 
@@ -114,7 +117,7 @@ public static class Battle
 
             if(playerSpeed >= enemySpeed)
             {
-                player.PlayerAttack(input, enemy, player);
+                player.PlayerAttack(input, enemy);
 
                 if(enemy.IsAlive())
                 {
@@ -127,7 +130,7 @@ public static class Battle
 
                 if(player.IsAlive())
                 {
-                    player.PlayerAttack(input, enemy, player);
+                    player.PlayerAttack(input, enemy);
                 }
 
             }
@@ -137,7 +140,7 @@ public static class Battle
 
 
 
-        // Check for end of battle conditions------------------------------------------------------------------------
+        // Check for end of battle conditions-------------------------------------------
         if (player.IsAlive())
         {
             Console.WriteLine($"\nYou have defeated {enemy.Name}!");

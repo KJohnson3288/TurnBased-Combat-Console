@@ -47,7 +47,7 @@ public class Character
     }
 
     // Functions for applying and processing status effects 
-    public void ApplyEffect(string type, int duration)
+    public void ApplyEffect(StatusEffectType type, int duration)
     {
         ActiveEffects.Add(new StatusEffect(type, duration));
         Console.WriteLine($"{Name} is affected by {type}");
@@ -62,17 +62,17 @@ public class Character
 
             switch(effect.Type)
             {
-                case "poison":
+                case StatusEffectType.Poison:
                     int poisonDamage = 2;
                     CurrentHP -= poisonDamage;
                     Console.WriteLine($"{Name} takes {poisonDamage} poison damage!");
                     break;
-                case "burn":
+                case StatusEffectType.Burn:
                     int burnDamage = 1;
                     CurrentHP -= burnDamage;
-                    Console.WriteLine($"{Name} takes {burnDamage} poison damage!");
+                    Console.WriteLine($"{Name} takes {burnDamage} burn damage!");
                     break;
-                case "blind":
+                case StatusEffectType.Blind:
                     Console.WriteLine($"{Name} is blinded and may miss!");
                     break;
                 default:

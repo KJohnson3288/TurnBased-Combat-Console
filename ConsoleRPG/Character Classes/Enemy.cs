@@ -74,32 +74,4 @@ public class Enemy : Character
             player.IsDefending = false;
     }
 
-        public void StatusEffect()
-    {
-        if(TriggerStatusEffect == true)
-        {
-        // Setting damage and count to occur per turn 
-        int poisonDamage = 1;
-
-        // Apply status effect 
-        CurrentHP -= poisonDamage;
-        Console.WriteLine("Apply status effect to player");
-
-        // Reduce count by 1 per turn
-        PoisonCount--;
-        Console.WriteLine("Reduced poison Count!");
-
-        if(PoisonCount <= 0)
-        {
-            TriggerStatusEffect = false;
-            Console.WriteLine("The poison has wore off");
-        }
-
-        if(CurrentHP < 0)
-        {
-            CurrentHP = 0; 
-        }
-
-        }
-    }
 }

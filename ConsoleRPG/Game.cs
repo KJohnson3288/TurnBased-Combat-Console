@@ -28,7 +28,7 @@ public class Game
     public void Start()
     {
         // Prompt informs player the game has started
-        Console.WriteLine("**Welcome to the Dungeon");
+        Console.WriteLine("\n** Welcome to the Dungeon **");
 
         // Create game loop for stage progression
         for(int i = 0; i < stages.Count; i++)
