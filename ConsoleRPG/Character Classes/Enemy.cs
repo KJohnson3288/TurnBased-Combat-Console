@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection.Metadata.Ecma335;
 
@@ -6,14 +8,10 @@ public class Enemy : Character
     // Reward properties
     public int EXPRewards {get; set;}
     public int GoldRewards {get; set;}
+    public List<Ability> EnemyAbilities {get; set;}
 
-    // Property for triggering status effect
-    public bool TriggerStatusEffect {get; set;}
 
-    // Count property for status effect 
-    public int PoisonCount = 3; 
-
-    public Enemy(string name, int maxHP, int attack, int defense, int speed, int accuracy, int critChance, int expRewards, int goldReward)
+    public Enemy(string name, int maxHP, int attack, int defense, int speed, int accuracy, int critChance, int expRewards, int goldReward, List<Ability> enemyAbilities)
     {
         Name = name;
         MaxHP = maxHP;
@@ -28,7 +26,13 @@ public class Enemy : Character
         EXPRewards = expRewards;
         GoldRewards = goldReward;
 
+        // List for abilities
+        EnemyAbilities = enemyAbilities;
+
     }
+
+    // List for Each Enemy Ability
+    
 
 
     // Function for enemy attack
@@ -73,5 +77,4 @@ public class Enemy : Character
             // Reset defending status after the enemy's turn
             player.IsDefending = false;
     }
-
 }

@@ -20,6 +20,7 @@ public class Game
         {
             bool battleEncounter = GameSettings.RNG.Next(0, 2) == 0;
             stages.Add(new Stage(battleEncounter));
+            
         }
 
     }
@@ -28,7 +29,7 @@ public class Game
     public void Start()
     {
         // Prompt informs player the game has started
-        Console.WriteLine("\n** Welcome to the Dungeon **");
+        Console.WriteLine("**Welcome to the Dungeon");
 
         // Create game loop for stage progression
         for(int i = 0; i < stages.Count; i++)
@@ -65,24 +66,26 @@ public class Game
                 Console.WriteLine($"\nYou Choose {choice}");
             }
 
-            // Confirm if the chosen path will trigger a battle encounter
-            bool battleChosen;
-
-
-            // bool to trigger boss battle
+            // Confirm if the chosen path will trigger a battle encounter / Added bool to use to check if a boss battle occurs
+            bool battleChosen = false;
             bool bossBattle = false;
 
-
+            //  Sets condition to trigger boss battle 
             if((i + 1) % 10 == 0)
             {
-                Console.WriteLine("Boss Battle!");
-                bossBattle = true;
-                battleChosen = true;
-            } else
-            {
-                battleChosen = choice == "left" && current.BattleEncounter || choice == "right" && current.BattleEncounter;
-            }
+              Console.WriteLine("\n----------Boss Battle!-------------");
 
+              battleChosen = true; 
+              bossBattle = true;
+
+            } else 
+            {
+
+              battleChosen = choice == "left" && current.BattleEncounter || choice == "right" && current.BattleEncounter;
+
+            }
+            
+          
 
             // Determine path action based on the choice
             if(battleChosen)

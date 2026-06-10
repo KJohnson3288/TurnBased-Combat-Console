@@ -8,18 +8,18 @@ public static class Battle
 {
     private static List<Func<Enemy>> enemyPool = new List<Func<Enemy>>()
     {
-        () => new Enemy("Goblin", 6, 2, 2, 6, 60, 5, 15, 20),            // High Speed / Ave Accuracy 
-        () => new Enemy("Hob Goblin", 8, 3, 2, 12, 40, 8, 25, 20),        // Higher Speed / More Strength / Less Accuracy
-        () => new Enemy("Goblin Mage", 10, 1, 1, 6, 70, 3, 35, 20),      // Low Strength / Low Speed / Has Abilities 
-        () => new Enemy("Goblin Orc", 12, 3, 3, 35, 4, 10, 50, 20),       // Higher Hp / Higher Strength / Lower Speed / Lower Accuracy      
-        () => new Enemy("Green Goblin", 10, 4, 2, 8, 50, 10, 50, 20),     // Balanced / High Attack / Abilities
+        () => new Enemy("Goblin", 6, 2, 2, 6, 60, 5, 15, 20, EnemyAbilities.GoblinAbilities),            // High Speed / Ave Accuracy 
+        () => new Enemy("Hob Goblin", 8, 3, 2, 12, 40, 8, 25, 20, EnemyAbilities.HobGoblinAbilities),        // Higher Speed / More Strength / Less Accuracy
+        () => new Enemy("Goblin Mage", 10, 1, 1, 6, 70, 3, 35, 20, EnemyAbilities.GoblinMageAbilities),      // Low Strength / Low Speed / Has Abilities 
+        () => new Enemy("Goblin Orc", 12, 3, 3, 35, 4, 10, 50, 20,EnemyAbilities.GoblinOrcAbilities),       // Higher Hp / Higher Strength / Lower Speed / Lower Accuracy      
+        () => new Enemy("Green Goblin", 10, 4, 2, 8, 50, 10, 50, 20, EnemyAbilities.GreenGoblinAbilities),     // Balanced / High Attack / Abilities
     };
 
     // Boss List
     private static List<Func<Enemy>> bossPool = new List<Func<Enemy>>()
     {
-        () => new Enemy("Goblin Ogre", 25, 6, 6, 6, 30, 15, 75, 20),      // Tank Boss - Slow / Low Accuracy / High damage / Abilities 
-        () => new Enemy("Goblin Champion", 20, 5, 5, 10, 60, 12, 100, 20)   // Strength Boss / High Attack / Defend / Abilities
+        () => new Enemy("Goblin Ogre", 25, 6, 6, 6, 30, 15, 75, 20, EnemyAbilities.GoblinOgreAbilities),      // Tank Boss - Slow / Low Accuracy / High damage / Abilities 
+        () => new Enemy("Goblin Champion", 20, 5, 5, 10, 60, 12, 100, 20, EnemyAbilities.GoblinChampionAbilities)   // Strength Boss / High Attack / Defend / Abilities
     };
 
 
@@ -74,9 +74,9 @@ public static class Battle
             // Prompt the player for their action
             Console.WriteLine("Choose your action:");
 
-            for(int i = 0; i < player.Abilities.Count; i++)
+            for(int i = 0; i < player.abilities.Count; i++)
             {
-                Console.WriteLine($"({i + 1}) {player.Abilities[i].Name}");
+                Console.WriteLine($"({i + 1}) {player.abilities[i].Name}");
             }
 
             string input;
@@ -85,7 +85,7 @@ public static class Battle
             if(GameSettings.SimulationMode)
             {
                 // Random setting for simulation mode
-                 input = GameSettings.RNG.Next(1, player.Abilities.Count + 1).ToString();
+                 input = GameSettings.RNG.Next(1, player.abilities.Count + 1).ToString();
                  Console.WriteLine($"\nInput: {input}");
             } else
             {
@@ -96,17 +96,17 @@ public static class Battle
                     input = Console.ReadLine() ?? "";
                     
 
-                    if(!int.TryParse(input, out choice) || choice < 1 || choice > player.Abilities.Count)
+                    if(!int.TryParse(input, out choice) || choice < 1 || choice > player.abilities.Count)
                     {
                         Console.WriteLine("\nInvalid Input");
                         Console.WriteLine("Choose your action:");
 
-                        for(int i = 0; i <player.Abilities.Count; i++)
+                        for(int i = 0; i <player.abilities.Count; i++)
                         {
-                            Console.WriteLine($"({i + 1}) {player.Abilities[i]}");
+                            Console.WriteLine($"({i + 1}) {player.abilities[i]}");
                         }
                     }
-                } while(!int.TryParse(input, out choice) || choice < 1 || choice > player.Abilities.Count);
+                } while(!int.TryParse(input, out choice) || choice < 1 || choice > player.abilities.Count);
 
             }
 

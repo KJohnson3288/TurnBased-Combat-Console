@@ -51,7 +51,7 @@ public class Player : Character
     // End of battle rewards and level uo check
     public void CheckLevelUp()
     {
-        if(Exp>= ExpToLevel)
+        if(Exp >= ExpToLevel)
         {
             Console.WriteLine($"\nYou have leveled up!");
 
@@ -86,13 +86,13 @@ public class Player : Character
     }
 
     // List of player actions 
-    public List<Ability> Abilities = new List<Ability>()
+    public List<Ability> abilities = new List<Ability>()
     {
         new Ability("Attack", 0, 0, "Basic Attack", StatusEffectType.None, 0, 0),
         new Ability("Defend", 0, 0, "Reduce Damage Taken", StatusEffectType.None, 0, 0),
-        new Ability("Heavy Slash", 2, 0, "Damage between Attack - Attack + 5", StatusEffectType.None, 0, 10),
-        new Ability("Multi-Strike", 4, 0, "Strike 4 times", StatusEffectType.None, 0, 20),
-        new Ability("Poison Strike", 2, 0, "Strike with a chance to inflict poison", StatusEffectType.Poison, 40, 10)
+        new Ability("Heavy Slash", 2, 0, "Damage between Attack + 5 - Attack + 10", StatusEffectType.None, 0, -10),
+        new Ability("Multi-Strike", 4, 0, "Strike 4 times", StatusEffectType.None, 0, -20),
+        new Ability("Poison Strike", 2, 0, "Strike with a chance to inflict poison", StatusEffectType.Poison, 40, -10)
     };
 
 
@@ -130,8 +130,9 @@ public class Player : Character
         }
     }
 
-    // Player Abilities-----------------------------------------------------
+    // Player abilities-----------------------------------------------------
     
+
     // Player Attack
     public void BaseAttack(Enemy enemy)
     {
@@ -171,7 +172,7 @@ public class Player : Character
         IsDefending = true;
     }
 
-    // Attack Heavy Slash does 5-10 damage lower accuracy
+    // Attack Heavy Slash does Base Attack + 5 amd Attack + 10 damage lower accuracy
     public void HeavySlash(Enemy enemy)
     {
 
@@ -179,16 +180,16 @@ public class Player : Character
       {
           int attackRoll = GameSettings.RNG.Next(0, 100); 
           int critHit = GameSettings.RNG.Next(0, 100);
-          int damage = GameSettings.RNG.Next(5, 10);
+          int damage = GameSettings.RNG.Next(Attack + 5, (Attack + 10));
           int result;
 
 
-          if(attackRoll < Accuracy)
+          if(attackRoll < (Accuracy + abilities[2].AccuracyModifier))
           {
               if(critHit < CritChance)
               {
                   Console.WriteLine("\nYou landed a critical hit");
-                  Console.WriteLine($"You rolled ({attackRoll}) / Acc: {Accuracy - 5}");
+                  Console.WriteLine($"You rolled ({attackRoll}) / Acc: {Accuracy}");
                   result = enemy.TakeDamage(damage, enemy.Defense, true);
                   Console.WriteLine($"You hit the {enemy.Name} for {result} damage with a heavy blow!");
               } else
@@ -203,7 +204,7 @@ public class Player : Character
               Console.WriteLine("You swing with a Heavy Slash but the enemy dodges!");
           }
 
-          CurrentMP -= Abilities[2].MPCost;
+          CurrentMP -= abilities[2].MPCost;
 
       } else
       {
@@ -217,6 +218,7 @@ public class Player : Character
       // Double strike allows the player to perform 4 strikes at reduced accuracy 
       int count = 0;
       int totalDamage = 0;
+      
 
 
       Console.WriteLine("\nYou used the skill Multi-Strike");
@@ -228,7 +230,7 @@ public class Player : Character
               int attackRoll = GameSettings.RNG.Next(0, 100); 
               int critHit = GameSettings.RNG.Next(0, 100); 
               
-              if(attackRoll < (Accuracy - 20))
+              if(attackRoll < (Accuracy + abilities[3].AccuracyModifier))
               {
                   if(critHit < CritChance)
                   {
@@ -254,7 +256,7 @@ public class Player : Character
 
           Console.WriteLine($"You landed {count} strike(s) for {totalDamage} damage");
           
-          CurrentMP -= Abilities[3].MPCost;
+          CurrentMP -= abilities[3].MPCost;
  
       } else
       {
@@ -266,7 +268,8 @@ public class Player : Character
     public void PoisonStrike(Enemy enemy)
     {
         // Added MP stat and Heavy Slash Ability to player, to give the player an option to deal more damage at the cost of some MP 
-        CurrentMP -= Abilities[4].MPCost;
+        CurrentMP -= abilities[4].MPCost;
+        
 
         if(CurrentMP < 0)
         {
@@ -276,7 +279,7 @@ public class Player : Character
         // Add calc to determine if an attack hits
         int attackRoll = GameSettings.RNG.Next(0, 100);
 
-        if(attackRoll < (Accuracy - 10))
+        if(attackRoll < (Accuracy + abilities[4].AccuracyModifier))
         {
           
           if(CurrentMP == 0)

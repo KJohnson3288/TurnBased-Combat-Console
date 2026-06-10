@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 public class Character
 {
     // Shared properties for all charter classes
@@ -70,7 +73,7 @@ public class Character
                 case StatusEffectType.Burn:
                     int burnDamage = 1;
                     CurrentHP -= burnDamage;
-                    Console.WriteLine($"{Name} takes {burnDamage} burn damage!");
+                    Console.WriteLine($"{Name} takes {burnDamage} poison damage!");
                     break;
                 case StatusEffectType.Blind:
                     Console.WriteLine($"{Name} is blinded and may miss!");
