@@ -62,6 +62,7 @@ public class Character
         if(type == StatusEffectType.Defend)
         {
           Console.WriteLine($"\n{Name} Braces for the attack"); 
+          IsDefending = true;
         } else
         {
           Console.WriteLine($"\n{Name} is affected by {type}");
@@ -78,9 +79,6 @@ public class Character
 
             switch(effect.Type)
             {
-                  case StatusEffectType.Defend:
-                    Defend();
-                    break;
                   case StatusEffectType.Poison:
                     int poisonDamage = 2;
                     CurrentHP -= poisonDamage;
@@ -94,6 +92,7 @@ public class Character
             {
                 if(effect.Type != StatusEffectType.Defend)
                 {
+                  IsDefending = false;  
                   Console.WriteLine($"{effect.Type} has worn off");
                 } else
                 {
@@ -105,11 +104,6 @@ public class Character
         }
     }
 
-    // Player Defend
-    public bool Defend()
-    {
-      return IsDefending = true;
-    }
 
 
     // Setting bool for checking if character is alive-------------------------------------------------------
