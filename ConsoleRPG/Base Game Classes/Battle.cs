@@ -8,18 +8,14 @@ public static class Battle
 {
     private static List<Func<Enemy>> enemyPool = new List<Func<Enemy>>()
     {
-        () => new Enemy("Goblin", 6, 2, 2, 6, 60, 5, 15, 20, EnemyAbilities.GoblinAbilities),            // High Speed / Ave Accuracy 
-        () => new Enemy("Hob Goblin", 8, 3, 2, 12, 40, 8, 25, 20, EnemyAbilities.HobGoblinAbilities),        // Higher Speed / More Strength / Less Accuracy
-        () => new Enemy("Goblin Mage", 10, 1, 1, 6, 70, 3, 35, 20, EnemyAbilities.GoblinMageAbilities),      // Low Strength / Low Speed / Has Abilities 
-        () => new Enemy("Goblin Orc", 12, 3, 3, 35, 4, 10, 50, 20,EnemyAbilities.GoblinOrcAbilities),       // Higher Hp / Higher Strength / Lower Speed / Lower Accuracy      
-        () => new Enemy("Green Goblin", 10, 4, 2, 8, 50, 10, 50, 20, EnemyAbilities.GreenGoblinAbilities),     // Balanced / High Attack / Abilities
+        () => new Enemy("Goblin", 6, 2, 2, 6, 60, 5, 25, 20, EnemyAbilities.GoblinAbilities),            // High Speed / Ave Accuracy 
+        () => new Enemy("Hob Goblin", 8, 3, 2, 12, 40, 8, 50, 20, EnemyAbilities.HobGoblinAbilities)       // Higher Speed / More Strength / Less Accuracy
     };
 
     // Boss List
     private static List<Func<Enemy>> bossPool = new List<Func<Enemy>>()
     {
-        () => new Enemy("Goblin Ogre", 25, 6, 6, 6, 30, 15, 75, 20, EnemyAbilities.GoblinOgreAbilities),      // Tank Boss - Slow / Low Accuracy / High damage / Abilities 
-        () => new Enemy("Goblin Champion", 20, 5, 5, 10, 60, 12, 100, 20, EnemyAbilities.GoblinChampionAbilities)   // Strength Boss / High Attack / Defend / Abilities
+        () => new Enemy("Big Goblin", 20, 5, 5, 10, 60, 12, 100, 20, EnemyAbilities.GoblinChampionAbilities)   // Strength Boss / High Attack / Defend / Abilities
     };
 
 
@@ -51,7 +47,7 @@ public static class Battle
         }
 
 
-        Console.WriteLine($"A wild {enemy.Name} appears!");
+        Console.WriteLine($"A wild {enemy.Name} appears!\n");
 
         // Battle loop, will continue to run until either the player or the enemy is defeated
         while (player.IsAlive() && enemy.IsAlive())
@@ -60,6 +56,17 @@ public static class Battle
             // Running Check for status effect
             player.ProcessStatusEffect();
             enemy.ProcessStatusEffect();
+
+            Console.WriteLine("\n---------------------------------");
+
+            // Process enemy cooldowns
+            foreach(Ability ability in enemy.EnemyAbilities)
+            {
+                ability.ReduceCooldown();
+
+                Console.WriteLine($"{ability.Name} Cooldown: {ability.CurrentCooldown}");
+            }
+
 
             if(!player.IsAlive() || !enemy.IsAlive())
             {
@@ -121,12 +128,12 @@ public static class Battle
 
                 if(enemy.IsAlive())
                 {
-                    enemy.EnemyAttack(enemy, player);
+                    enemy.EnemyAttack(player);
                 }
 
             } else
             {
-                enemy.EnemyAttack(enemy, player);
+                enemy.EnemyAttack(player);
 
                 if(player.IsAlive())
                 {
@@ -134,16 +141,12 @@ public static class Battle
                 }
 
             }
-
         }
 
-
-
-
-        // Check for end of battle conditions-------------------------------------------
+        // Check for end of battle conditions---------------------
         if (player.IsAlive())
         {
-            Console.WriteLine($"\nYou have defeated {enemy.Name}!");
+            Console.WriteLine($"\n<<<<<<<<<< You have defeated {enemy.Name}! >>>>>>>>>>");
 
             // End of battle Summary and rewards
             player.Gold += enemy.GoldRewards;
@@ -162,5 +165,8 @@ public static class Battle
             Console.WriteLine("\nYou have been defeated...");
             return false; // Player loses
         }
+
+
+
     }
 }

@@ -21,6 +21,7 @@ public class Enemy : Character
         Speed = speed;
         Accuracy = accuracy;
         CritChance = critChance;
+        IsDefending = false;
 
         // Reward fields
         EXPRewards = expRewards;
@@ -28,53 +29,51 @@ public class Enemy : Character
 
         // List for abilities
         EnemyAbilities = enemyAbilities;
-
     }
 
-    // List for Each Enemy Ability
-    
 
+
+
+
+
+
+
+
+
+
+
+    // Enemy Abilities -------------------------------------------------------
+
+    // Function for choosing the enemyABility
+    public Ability ChoooseEnemyAbility()
+    {
+
+      List<Ability> availableAbilities = new List<Ability>();
+
+      foreach(Ability ability in EnemyAbilities)
+      {
+        if(ability.IsReady())
+        {
+          availableAbilities.Add(ability);
+        }
+      }
+
+      if(availableAbilities.Count == 0)
+      {
+          return EnemyAbilities[0];
+      }
+
+      return availableAbilities[GameSettings.RNG.Next(availableAbilities.Count)];
+    }
 
     // Function for enemy attack
-    public void EnemyAttack(Enemy enemy, Player player)
+    public void EnemyAttack(Player player)
     {
-            if (enemy.IsAlive())
-            {
-                // Calculate damage, if player is defending reduce damage by half
-                int damage = Attack;
-                int result;
+      Ability selectedAbility = ChoooseEnemyAbility();
 
-                if (player.IsDefending)
-                {
-                    damage /= 2;
-                }
-
-                int attackRoll = GameSettings.RNG.Next(0, 100); 
-                int critHit = GameSettings.RNG.Next(0, 100); 
-
-                if(attackRoll < enemy.Accuracy)
-                {
-                    if(critHit < enemy.CritChance)
-                    {
-                        Console.WriteLine("\nThe enemy landed a critical hit!");
-                        result = player.TakeDamage(damage, player.Defense, true);
-                        Console.WriteLine($"The enemy rolled ({attackRoll}) / Acc: {enemy.Accuracy}");
-                        Console.WriteLine($"The {enemy.Name} attacks you for {result} damage!");    
-                    } else
-                    {
-                        result = player.TakeDamage(damage, player.Defense, false);
-                        Console.WriteLine($"\nThe enemy rolled ({attackRoll}) / Acc: {enemy.Accuracy}");
-                        Console.WriteLine($"The {enemy.Name} attacks you for {result} damage!"); 
-                    }             
-                } else
-                {
-                    Console.WriteLine($"\nThe enemy rolled ({attackRoll}) / Acc: {enemy.Accuracy}");
-                    Console.WriteLine($"You dodged the enemy's attack!");
-                }
-
-            }
-
-            // Reset defending status after the enemy's turn
-            player.IsDefending = false;
+      CombatSystem.ExecuteDamageAbility(this, player, selectedAbility);
+      
+      selectedAbility.StartCooldown();
     }
+
 }

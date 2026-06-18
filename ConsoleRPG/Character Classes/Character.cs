@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Character
 {
     // Shared properties for all charter classes
-    public string? Name {get; set;} 
+    public string Name {get; set;} 
     public int MaxHP {get; set;}
     public int CurrentHP {get; set;}
     public int MaxMP {get; set;}
@@ -15,11 +15,11 @@ public class Character
     public int Accuracy {get; set;}
     public int CritChance {get; set;}
 
+    // Defending Trigger
+    public bool IsDefending { get; set; }
+
     // Status effect Property
     public List<StatusEffect> ActiveEffects = new List<StatusEffect>();
-
-
-
 
 
 
@@ -39,6 +39,11 @@ public class Character
             damage = Math.Max(1, attack - (defense / 2));
         }
 
+        if(IsDefending)
+        {
+          damage /= 2;
+        }
+
         CurrentHP-= damage;
 
         if (CurrentHP < 0)
@@ -53,8 +58,16 @@ public class Character
     public void ApplyEffect(StatusEffectType type, int duration)
     {
         ActiveEffects.Add(new StatusEffect(type, duration));
-        Console.WriteLine($"{Name} is affected by {type}");
+
+        if(type == StatusEffectType.Defend)
+        {
+          Console.WriteLine($"\n{Name} Braces for the attack"); 
+        } else
+        {
+          Console.WriteLine($"\n{Name} is affected by {type}");
+        }
     }
+
 
     public void ProcessStatusEffect()
     {
@@ -65,20 +78,13 @@ public class Character
 
             switch(effect.Type)
             {
-                case StatusEffectType.Poison:
+                  case StatusEffectType.Defend:
+                    Defend();
+                    break;
+                  case StatusEffectType.Poison:
                     int poisonDamage = 2;
                     CurrentHP -= poisonDamage;
                     Console.WriteLine($"{Name} takes {poisonDamage} poison damage!");
-                    break;
-                case StatusEffectType.Burn:
-                    int burnDamage = 1;
-                    CurrentHP -= burnDamage;
-                    Console.WriteLine($"{Name} takes {burnDamage} poison damage!");
-                    break;
-                case StatusEffectType.Blind:
-                    Console.WriteLine($"{Name} is blinded and may miss!");
-                    break;
-                default:
                     break;
             }
 
@@ -86,12 +92,24 @@ public class Character
 
             if(effect.Duration <= 0)
             {
-                Console.WriteLine($"{effect.Type} has worn off");
+                if(effect.Type != StatusEffectType.Defend)
+                {
+                  Console.WriteLine($"{effect.Type} has worn off");
+                } else
+                {
+                  Console.WriteLine($"{Name} is no longer defending!");
+                }
+                
                 ActiveEffects.RemoveAt(i);
             }
         }
     }
 
+    // Player Defend
+    public bool Defend()
+    {
+      return IsDefending = true;
+    }
 
 
     // Setting bool for checking if character is alive-------------------------------------------------------

@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 public class StatusEffect
 {
     public StatusEffectType Type {get; set;}

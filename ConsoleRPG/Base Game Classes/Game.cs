@@ -20,7 +20,6 @@ public class Game
         {
             bool battleEncounter = GameSettings.RNG.Next(0, 2) == 0;
             stages.Add(new Stage(battleEncounter));
-            
         }
 
     }
