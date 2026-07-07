@@ -11,7 +11,7 @@ public class Game
     public Game()
     {
         // Create player instance on game start
-        player = new Player("Hero", 20, 10, 4, 3, 10, 70, 10);
+        player = new Player("Hero", 20, 10, 3, 3, 10, 70, 10);
         stages = new List<Stage>();
 
 

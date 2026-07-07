@@ -67,9 +67,9 @@ public class Enemy : Character
     }
 
     // Function for enemy attack
-    public void EnemyAttack(Player player)
+    public void EnemyAttack(Player player, Ability ability)
     {
-      Ability selectedAbility = ChoooseEnemyAbility();
+      Ability selectedAbility = ability;
 
       CombatSystem.ExecuteDamageAbility(this, player, selectedAbility);
       

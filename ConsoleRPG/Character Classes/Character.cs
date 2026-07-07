@@ -24,7 +24,7 @@ public class Character
 
 
 
-    // Take damage function to be used by both player and enemy----------------------------------------------
+    // Take damage function to be used by both player and enemy------------------------------------------
     public int TakeDamage(int attack, int defense, bool crit)
     {
         int damage;
@@ -39,13 +39,16 @@ public class Character
             damage = Math.Max(1, attack - (defense / 2));
         }
 
+        // if a character is defending damage is halved
         if(IsDefending)
         {
           damage /= 2;
         }
 
+        // Reduce character HP by total damage amount
         CurrentHP-= damage;
 
+        // Sets Curent hp to 0 if it goes below
         if (CurrentHP < 0)
         {
             CurrentHP = 0;
@@ -54,49 +57,61 @@ public class Character
         return damage;
     }
 
+
     // Functions for applying and processing status effects 
     public void ApplyEffect(StatusEffectType type, int duration)
     {
+        // Addes status effect to character list
         ActiveEffects.Add(new StatusEffect(type, duration));
-
+        
+        // Will set is defending on for character to true, else display the current status effect applied
         if(type == StatusEffectType.Defend)
         {
-          Console.WriteLine($"\n{Name} Braces for the attack"); 
           IsDefending = true;
         } else
         {
           Console.WriteLine($"\n{Name} is affected by {type}");
         }
+        
     }
 
 
+    // This function is for processing the status effects within the characters activaeffects list
     public void ProcessStatusEffect()
     {
+        // Will loop through each element to process status effect
         for(int i = ActiveEffects.Count - 1; i >= 0; i--)
         {
 
+            // Setting refernce for the Status effect type
             var effect = ActiveEffects[i];
 
+            // Conditional to trigger actions taken for effect process based on the matching status effect type
             switch(effect.Type)
             {
+                  // Actions for Poison status effect, once triggered it will decrease currentHP of the character until it wares off 
                   case StatusEffectType.Poison:
                     int poisonDamage = 2;
                     CurrentHP -= poisonDamage;
                     Console.WriteLine($"{Name} takes {poisonDamage} poison damage!");
                     break;
+                  default:
+                    break;
             }
 
+            // Reduce the effct duration by 1
             effect.Duration --;
 
+            // Action for Status effect when the duration hits 0, Remove the element from the list, Display that the status effect is no longer active 
             if(effect.Duration <= 0)
             {
                 if(effect.Type != StatusEffectType.Defend)
                 {
-                  IsDefending = false;  
-                  Console.WriteLine($"{effect.Type} has worn off");
+                  Console.WriteLine($"\n{effect.Type} has worn off");
                 } else
                 {
-                  Console.WriteLine($"{Name} is no longer defending!");
+                  IsDefending = false;  
+                  Console.WriteLine($"\n{Name} is no longer defending!");
                 }
                 
                 ActiveEffects.RemoveAt(i);

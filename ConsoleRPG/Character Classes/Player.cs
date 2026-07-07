@@ -29,7 +29,7 @@ public class Player : Character
     }
 
 
-    // List of player actions 
+    // List of player abilities 
     public List<Ability> abilities = new List<Ability>()
     {
       AbilityDB.Attack,
@@ -40,45 +40,31 @@ public class Player : Character
     };
 
 
-    // Player Function to attack -----------------------------------------
-    public void PlayerAttack(string input, Enemy enemy)
+    // Player Function to choose the ability -----------------------------------------
+    public Ability Choice(string input)
     {
-        // Take in player input and run action
-        switch(input)
-        {
-            case "1":
-            {
-              UseAbility(enemy, AbilityDB.Attack);
-            }
-            break;
-            case"2":
-            {
-              UseAbility(this, AbilityDB.Defend);
-            } 
-            break;
-            case "3":
-            {
-              UseAbility(enemy, AbilityDB.HeavySlash);
-            }
-            break;
-            case "4":
-            {
-              UseAbility(enemy, AbilityDB.MultiStrike);
-            }
-            break;
-            case "5":
-            {
-              UseAbility(enemy, AbilityDB.PoisonStrike);
-            }
-            break;
-        }
+      switch(input)
+      {
+        case "1":
+          return AbilityDB.Attack;
+        case "2":
+          return AbilityDB.Defend;
+        case "3":
+          return AbilityDB.HeavySlash;
+        case "4":
+          return AbilityDB.MultiStrike;
+        case "5":
+          return AbilityDB.PoisonStrike;
+        default:
+          return AbilityDB.Attack;
+      }
     }
 
     
 
     // Player Attack ----------------------------------------
     
-    public void UseAbility(Character enemy, Ability ability)
+    public void PlayerAttack(Character enemy, Ability ability)
     {
       if(CurrentMP >= ability.MPCost)
       {

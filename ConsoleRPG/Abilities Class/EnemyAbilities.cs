@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public static class EnemyAbilities
 {
+  // Enemy ability list are set here, This can be altered and changed to add or remove abilities from a characters ability pool
+  
   // Goblin Abilities
   public static List<Ability> GoblinAbilities = new List<Ability>()
   {

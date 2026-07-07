@@ -32,16 +32,20 @@ public class Ability
   }
 
   // Functions for cooldown process for enemy abilities
+
+  // Sets trigger that ability can be used again
   public bool IsReady()
   {
     return CurrentCooldown <= 0;
   }
 
+  // Start cooldown process after the ability has been used 
   public void StartCooldown()
   {
     CurrentCooldown = Cooldown;
   }
 
+  // Reduce the cooldown by 1 per turn
   public void ReduceCooldown()
   {
     if(CurrentCooldown > 0)
